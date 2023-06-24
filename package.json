@@ -1,0 +1,23 @@
+{
+  "name": "jira-activities",
+  "version": "1.0.0",
+  "description": "Get Jira tickets from the activity feed",
+  "main": "src/index.js",
+  "bin": {
+    "jira-activities": "src/index.js"
+  },
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/index.js --filepath=drop-xml-here/test.xml --start=2023-06-19 --end=2023-06-23",
+    "start:details": "npm start -- --details"
+  },
+  "keywords": [
+    "Jira"
+  ],
+  "author": "flashback2k14",
+  "license": "MIT",
+  "dependencies": {
+    "xml-js": "^1.6.11"
+  }
+}
