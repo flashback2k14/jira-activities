@@ -11,15 +11,17 @@ Checkout the code and perform `npm install` to install the dependencies. After t
 
 ---
 
-This program has three required parameter and one optional parameter. **_The order is important._**
+This program has one required parameter and four optional parameter.
 
 The first parameter is the `--filepath` to the xml file that contains the result from the Jira activity feed. Because of permission issue we can not fetch directly the Jira activity feed.
 
-The second parameter is the `--start`. Mostly the start day of the working week.
+The second parameter is the `--start`. Mostly the start day of the working week. If it's not set then it's calculated from the `end` or from `Date.now()` if `end` is not present.
 
-The third parameter is the `--end`. Mostly the end day of the working week.
+The third parameter is the `--end`. Mostly the end day of the working week. If it's not set then it's calculated from the `Date.now()`.
 
 The fourth parameter is `--details`. To print out more details for each Jira ticket you worked on.
+
+The fifth parameter is `--verbose`. To print out the program arguments.
 
 ## Execution
 
