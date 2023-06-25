@@ -1,2 +1,3 @@
-node_modules/
+coverage/
 drop-xml-here/
+node_modules/

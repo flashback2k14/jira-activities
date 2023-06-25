@@ -9,6 +9,10 @@ const PARAMETER = {
 };
 
 export function extractValue(arg) {
+  if (!arg) {
+    return undefined;
+  }
+
   const extracted =
     arg?.split("=")?.[1] ?? new Error(`arg doesn't has an equal sign.`);
 
@@ -23,28 +27,30 @@ export function getArgs() {
   const now = Date.now();
 
   const filepath =
-    process.argv.find((arg) => arg.includes(PARAMETER.FILE_PATH)) ??
-    new Error(`${PARAMETER.FILE_PATH} argument is missing.`);
+    extractValue(
+      process.argv.find((arg) => arg.includes(PARAMETER.FILE_PATH))
+    ) ?? new Error(`${PARAMETER.FILE_PATH} argument is missing.`);
 
   const endDate =
-    process.argv.find((arg) => arg.includes(PARAMETER.END_DATE)) ?? now;
+    extractValue(
+      process.argv.find((arg) => arg.includes(PARAMETER.END_DATE))
+    ) ?? now;
 
   const startDate =
-    process.argv.find((arg) => arg.includes(PARAMETER.START_DATE)) ??
-    getCurrentStartDate(endDate);
+    extractValue(
+      process.argv.find((arg) => arg.includes(PARAMETER.START_DATE))
+    ) ?? getCurrentStartDate(endDate);
 
-  const details =
-    !!process.argv.find((arg) => arg === PARAMETER.DETAILS) ?? false;
+  const details = !!process.argv.find((arg) => arg === PARAMETER.DETAILS);
 
-  const verbose =
-    !!process.argv.find((arg) => arg === PARAMETER.VERBOSE) ?? false;
+  const verbose = !!process.argv.find((arg) => arg === PARAMETER.VERBOSE);
 
   if (filepath instanceof Error) {
     throw filepath;
   }
 
   const args = {
-    filepath: extractValue(filepath),
+    filepath,
     startDate,
     endDate: endDate === now ? getCurrentEndDate(now) : endDate,
     details,
