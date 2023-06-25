@@ -31,15 +31,13 @@ export function getArgs() {
       process.argv.find((arg) => arg.includes(PARAMETER.FILE_PATH))
     ) ?? new Error(`${PARAMETER.FILE_PATH} argument is missing.`);
 
-  const endDate =
-    extractValue(
-      process.argv.find((arg) => arg.includes(PARAMETER.END_DATE))
-    ) ?? now;
+  const endDate = extractValue(
+    process.argv.find((arg) => arg.includes(PARAMETER.END_DATE))
+  );
 
-  const startDate =
-    extractValue(
-      process.argv.find((arg) => arg.includes(PARAMETER.START_DATE))
-    ) ?? getCurrentStartDate(endDate);
+  const startDate = extractValue(
+    process.argv.find((arg) => arg.includes(PARAMETER.START_DATE))
+  );
 
   const details = !!process.argv.find((arg) => arg === PARAMETER.DETAILS);
 
@@ -51,8 +49,8 @@ export function getArgs() {
 
   const args = {
     filepath,
-    startDate,
-    endDate: endDate === now ? getCurrentEndDate(now) : endDate,
+    startDate: startDate ?? getCurrentStartDate(endDate ?? now),
+    endDate: endDate ?? getCurrentEndDate(now),
     details,
     verbose,
   };
