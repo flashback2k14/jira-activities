@@ -1,5 +1,7 @@
 # Jira activities
 
+![CI pipeline status](https://github.com/flashback2k14/jira-activities/actions/workflows/ci.yml/badge.svg)
+
 This is a little helper program to get your Jira tickets you worked on from the Jira activity feed.
 
 ## Install
@@ -8,8 +10,6 @@ Checkout the code and perform `npm install` to install the dependencies. After t
 `npm link` to make the program global available. Or install it directly without checking out the code with `npm install -g https://github.com/flashback2k14/jira-activities`
 
 ## Parameters
-
----
 
 This program has one required parameter and four optional parameter.
 
@@ -24,8 +24,6 @@ The fourth parameter is `--details`. To print out more details for each Jira tic
 The fifth parameter is `--verbose`. To print out the program arguments.
 
 ## Execution
-
----
 
 An example is:
 

@@ -8,8 +8,15 @@ const PARAMETER = {
   VERBOSE: "--verbose",
 };
 
-function extractValue(arg) {
-  return arg?.split("=")?.[1] ?? new Error(`arg doesn't has an equal sign.`);
+export function extractValue(arg) {
+  const extracted =
+    arg?.split("=")?.[1] ?? new Error(`arg doesn't has an equal sign.`);
+
+  if (extracted instanceof Error) {
+    throw extracted;
+  }
+
+  return extracted;
 }
 
 export function getArgs() {
