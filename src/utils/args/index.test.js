@@ -1,7 +1,13 @@
 import { expect, jest, describe, it } from "@jest/globals";
-import { extractValue, getArgs } from "./args.js";
+import { extractValue, getArgs } from "./index.js";
 
-describe("args.js", () => {
+const origLog = console.log;
+
+describe("args", () => {
+  beforeAll(() => (console.log = function () {}));
+
+  afterAll(() => (console.log = origLog));
+
   describe("extractValue", () => {
     it("should return the right side from the equal sign", () =>
       expect(extractValue("lorem=ipsum")).toEqual("ipsum"));

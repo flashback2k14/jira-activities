@@ -2,7 +2,11 @@ export function transformContent(content, dates) {
   const transformed = new Map();
   let excluded = 0;
 
-  content.map((entry) => {
+  if (!content || !dates) {
+    return { transformed, excluded };
+  }
+
+  content.forEach((entry) => {
     const date = entry?.updated?._text?.split("T")?.[0] ?? "";
 
     if (dates.some((d) => d === date)) {

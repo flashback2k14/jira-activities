@@ -1,4 +1,4 @@
-import { getCurrentStartDate, getCurrentEndDate } from "./dates.js";
+import { getCurrentStartDate, getCurrentEndDate } from "../dates/index.js";
 
 const PARAMETER = {
   FILE_PATH: "--filepath",
