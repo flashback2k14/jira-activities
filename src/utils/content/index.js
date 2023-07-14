@@ -60,10 +60,11 @@ export function print(content, ignored, details = false) {
     console.log(key + ": " + value.tickets);
 
     if (details) {
+      const { tickets, ...rest } = value;
       console.log("------------------");
       console.log("Details:");
       console.log("------------------");
-      console.log(value);
+      console.log(rest);
     }
   });
 

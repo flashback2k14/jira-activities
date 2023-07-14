@@ -1,4 +1,8 @@
 export function getCurrentEndDate(now) {
+  if (typeof now !== "number") {
+    throw new Error("Now is not a number.");
+  }
+
   return new Date(now).toISOString().slice(0, 10);
 }
 
@@ -8,7 +12,8 @@ export function getCurrentStartDate(now) {
     const end = new Date(
       Number(parts[0]),
       Number(parts[1]) - 1,
-      Number(parts[2])
+      Number(parts[2]),
+      2
     );
     end.setDate(end.getDate() - 4);
     return end.toISOString().slice(0, 10);
