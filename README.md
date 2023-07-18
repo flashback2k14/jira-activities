@@ -23,6 +23,8 @@ The fourth parameter is `--details`. To print out more details for each Jira tic
 
 The fifth parameter is `--verbose`. To print out the program arguments.
 
+The sixed parameter is `--help`. To print out the help text.
+
 ## Execution
 
 An example is:

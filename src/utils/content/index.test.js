@@ -1,5 +1,10 @@
 import { expect, jest, describe, it } from "@jest/globals";
-import { transformContent, addSummarizedTickets, print } from "./index.js";
+import {
+  transformContent,
+  addSummarizedTickets,
+  print,
+  printHelp,
+} from "./index.js";
 import {
   date0,
   date1,
@@ -335,6 +340,24 @@ describe("content", () => {
       expect(spyLog).toHaveBeenNthCalledWith(14, "------------------");
       expect(spyLog).toHaveBeenNthCalledWith(15, "excluded entries: 0.");
       expect(spyLog).toHaveBeenNthCalledWith(16, "------------------");
+    });
+  });
+
+  describe("printHelp", () => {
+    const orgLog = console.log;
+    const spyLog = jest.fn();
+
+    beforeEach(() => (console.log = spyLog));
+
+    afterEach(() => (console.log = orgLog));
+
+    it("should display the help text with the correct program version", () => {
+      jest.replaceProperty(process.env, "npm_package_version", "9.9.9");
+
+      printHelp();
+
+      expect(spyLog).toBeCalledTimes(11);
+      expect(spyLog).toHaveBeenLastCalledWith("  The version is 9.9.9.");
     });
   });
 });

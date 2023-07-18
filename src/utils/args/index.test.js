@@ -2,9 +2,10 @@ import { expect, jest, describe, it } from "@jest/globals";
 import { extractValue, getArgs } from "./index.js";
 
 const origLog = console.log;
+const spyLog = jest.fn();
 
 describe("args", () => {
-  beforeAll(() => (console.log = function () {}));
+  beforeAll(() => (console.log = spyLog));
 
   afterAll(() => (console.log = origLog));
 
@@ -45,6 +46,7 @@ describe("args", () => {
           endDate: "2023-06-25",
           details: false,
           verbose: false,
+          help: false,
         }));
 
       describe("with --details arg", () => {
@@ -59,6 +61,8 @@ describe("args", () => {
         describe("with --verbose arg", () => {
           beforeEach(() => process.argv.push("--verbose"));
 
+          afterEach(() => jest.resetAllMocks());
+
           it("should return args", () =>
             expect(getArgs()).toMatchObject({
               filepath: "lorem.xml",
@@ -66,28 +70,59 @@ describe("args", () => {
               verbose: true,
             }));
 
-          describe("with --start arg", () => {
-            beforeEach(() => process.argv.push("--start=2023-07-31"));
+          it("should print args to console", () => {
+            getArgs();
+
+            expect(spyLog).toBeCalledTimes(4);
+            expect(spyLog).toHaveBeenNthCalledWith(1, "------------------");
+            expect(spyLog).toHaveBeenNthCalledWith(2, "Arguments:");
+            expect(spyLog).toHaveBeenNthCalledWith(3, "------------------");
+            expect(spyLog).toHaveBeenNthCalledWith(4, {
+              details: true,
+              endDate: "2023-06-25",
+              filepath: "lorem.xml",
+              help: false,
+              startDate: "2023-06-21",
+              verbose: true,
+            });
+          });
+
+          describe("with --help arg", () => {
+            beforeEach(() => process.argv.push("--help"));
 
             it("should return args", () =>
               expect(getArgs()).toMatchObject({
                 filepath: "lorem.xml",
                 details: true,
                 verbose: true,
-                startDate: "2023-07-31",
+                help: true,
               }));
 
-            describe("with --end arg", () => {
-              beforeEach(() => process.argv.push("--end=2023-08-04"));
+            describe("with --start arg", () => {
+              beforeEach(() => process.argv.push("--start=2023-07-31"));
 
               it("should return args", () =>
                 expect(getArgs()).toMatchObject({
                   filepath: "lorem.xml",
                   details: true,
                   verbose: true,
+                  help: true,
                   startDate: "2023-07-31",
-                  endDate: "2023-08-04",
                 }));
+
+              describe("with --end arg", () => {
+                beforeEach(() => process.argv.push("--end=2023-08-04"));
+
+                it("should return args", () =>
+                  expect(getArgs()).toMatchObject({
+                    filepath: "lorem.xml",
+                    details: true,
+                    verbose: true,
+                    help: true,
+                    startDate: "2023-07-31",
+                    endDate: "2023-08-04",
+                  }));
+              });
             });
           });
         });

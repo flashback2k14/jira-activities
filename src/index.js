@@ -8,10 +8,17 @@ import {
   transformContent,
   print,
   getContent,
+  printHelp,
 } from "./utils/index.js";
 
 async function main() {
-  const { filepath, startDate, endDate, details } = getArgs();
+  const { filepath, startDate, endDate, details, help } = getArgs();
+
+  if (help) {
+    printHelp();
+    return;
+  }
+
   const xmlContent = await getFileContent(filepath);
   const content = getContent(xmlContent);
   const dates = getDatesBetween(startDate, endDate);
