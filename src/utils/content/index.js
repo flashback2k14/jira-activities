@@ -72,3 +72,19 @@ export function print(content, ignored, details = false) {
   console.log(`excluded entries: ${ignored}.`);
   console.log("------------------");
 }
+
+export function printHelp() {
+  [
+    "Welcome to Jira activities.",
+    "",
+    "  This program has one required parameter and five optional parameter.",
+    "  -  The first parameter is the '--filepath' to the xml file that contains the result from the Jira activity feed. Because of permission issue we can not fetch directly the Jira activity feed.",
+    "  -  The second parameter is the '--start'. Mostly the start day of the working week. If it's not set then it's calculated from the 'end' or from 'Date.now()' if 'end' is not present.",
+    "  -  The third parameter is the '--end'. Mostly the end day of the working week. If it's not set then it's calculated from the 'Date.now()'.",
+    "  -  The fourth parameter is '--details'. To print out more details for each Jira ticket you worked on.",
+    "  -  The fifth parameter is '--verbose'. To print out the program arguments.",
+    "  -  The sixed parameter is '--help'. To print out this help text.",
+    "",
+    "  The version is " + process.env.npm_package_version + ".",
+  ].forEach((line) => console.log(line));
+}

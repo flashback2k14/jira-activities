@@ -6,6 +6,7 @@ const PARAMETER = {
   END_DATE: "--end",
   DETAILS: "--details",
   VERBOSE: "--verbose",
+  HELP: "--help",
 };
 
 export function extractValue(arg) {
@@ -43,6 +44,8 @@ export function getArgs() {
 
   const verbose = !!process.argv.find((arg) => arg === PARAMETER.VERBOSE);
 
+  const help = !!process.argv.find((arg) => arg === PARAMETER.HELP);
+
   if (filepath instanceof Error) {
     throw filepath;
   }
@@ -53,6 +56,7 @@ export function getArgs() {
     endDate: endDate ?? getCurrentEndDate(now),
     details,
     verbose,
+    help,
   };
 
   if (verbose) {
