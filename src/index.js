@@ -12,18 +12,20 @@ import {
 } from "./utils/index.js";
 
 async function main() {
-  const { filepath, startDate, endDate, details, help } = getArgs();
-
-  if (help) {
+  const args = getArgs();
+  if (args.help) {
     printHelp();
     return;
   }
+
+  const { filepath, startDate, endDate, details } = args;
 
   const xmlContent = await getFileContent(filepath);
   const content = getContent(xmlContent);
   const dates = getDatesBetween(startDate, endDate);
   const { transformed, excluded } = transformContent(content, dates);
   const result = addSummarizedTickets(transformed);
+
   print(result, excluded, details);
 }
 

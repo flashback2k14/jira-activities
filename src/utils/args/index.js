@@ -27,6 +27,11 @@ export function extractValue(arg) {
 export function getArgs() {
   const now = Date.now();
 
+  const help = !!process.argv.find((arg) => arg === PARAMETER.HELP);
+  if (help) {
+    return { help };
+  }
+
   const filepath =
     extractValue(
       process.argv.find((arg) => arg.includes(PARAMETER.FILE_PATH))
@@ -43,8 +48,6 @@ export function getArgs() {
   const details = !!process.argv.find((arg) => arg === PARAMETER.DETAILS);
 
   const verbose = !!process.argv.find((arg) => arg === PARAMETER.VERBOSE);
-
-  const help = !!process.argv.find((arg) => arg === PARAMETER.HELP);
 
   if (filepath instanceof Error) {
     throw filepath;
