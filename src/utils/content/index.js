@@ -1,3 +1,5 @@
+import packageJSON from "../../../package.json" assert { type: "json" };
+
 export function transformContent(content, dates) {
   const transformed = new Map();
   let excluded = 0;
@@ -85,6 +87,6 @@ export function printHelp() {
     "  -  The fifth parameter is '--verbose'. To print out the program arguments.",
     "  -  The sixed parameter is '--help'. To print out this help text.",
     "",
-    "  The version is " + process.env.npm_package_version + ".",
+    "  The version is " + packageJSON.version + ".",
   ].forEach((line) => console.log(line));
 }

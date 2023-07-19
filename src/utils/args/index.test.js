@@ -36,6 +36,17 @@ describe("args", () => {
       );
     });
 
+    describe("with --help arg", () => {
+      beforeEach(() => (process.argv = ["--help"]));
+
+      afterEach(() => (process.argv = []));
+
+      it("should return args", () =>
+        expect(getArgs()).toMatchObject({
+          help: true,
+        }));
+    });
+
     describe("with --filepath arg", () => {
       beforeEach(() => (process.argv = ["--filepath=lorem.xml"]));
 
@@ -87,42 +98,30 @@ describe("args", () => {
             });
           });
 
-          describe("with --help arg", () => {
-            beforeEach(() => process.argv.push("--help"));
+          describe("with --start arg", () => {
+            beforeEach(() => process.argv.push("--start=2023-07-31"));
 
             it("should return args", () =>
               expect(getArgs()).toMatchObject({
                 filepath: "lorem.xml",
                 details: true,
                 verbose: true,
-                help: true,
+                help: false,
+                startDate: "2023-07-31",
               }));
 
-            describe("with --start arg", () => {
-              beforeEach(() => process.argv.push("--start=2023-07-31"));
+            describe("with --end arg", () => {
+              beforeEach(() => process.argv.push("--end=2023-08-04"));
 
               it("should return args", () =>
                 expect(getArgs()).toMatchObject({
                   filepath: "lorem.xml",
                   details: true,
                   verbose: true,
-                  help: true,
+                  help: false,
                   startDate: "2023-07-31",
+                  endDate: "2023-08-04",
                 }));
-
-              describe("with --end arg", () => {
-                beforeEach(() => process.argv.push("--end=2023-08-04"));
-
-                it("should return args", () =>
-                  expect(getArgs()).toMatchObject({
-                    filepath: "lorem.xml",
-                    details: true,
-                    verbose: true,
-                    help: true,
-                    startDate: "2023-07-31",
-                    endDate: "2023-08-04",
-                  }));
-              });
             });
           });
         });

@@ -1,4 +1,6 @@
 import { expect, jest, describe, it } from "@jest/globals";
+import packageJSON from "../../../package.json" assert { type: "json" };
+
 import {
   transformContent,
   addSummarizedTickets,
@@ -352,7 +354,7 @@ describe("content", () => {
     afterEach(() => (console.log = orgLog));
 
     it("should display the help text with the correct program version", () => {
-      jest.replaceProperty(process.env, "npm_package_version", "9.9.9");
+      jest.replaceProperty(packageJSON, "version", "9.9.9");
 
       printHelp();
 
