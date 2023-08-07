@@ -1,4 +1,4 @@
-import packageJSON from "../../../package.json" assert { type: "json" };
+import { packageJSON } from "./../helper/index.js";
 
 export function transformContent(content, dates) {
   const transformed = new Map();

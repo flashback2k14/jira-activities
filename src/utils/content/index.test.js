@@ -1,5 +1,4 @@
 import { expect, jest, describe, it } from "@jest/globals";
-import packageJSON from "../../../package.json" assert { type: "json" };
 
 import {
   transformContent,
@@ -15,7 +14,8 @@ import {
   jsWithThreeEntries,
   jsWithThreeEntriesAndEmptyFields,
   jsWithTwoEntries,
-} from "../test-helper/index.js";
+  packageJSON,
+} from "../helper/index.js";
 
 describe("content", () => {
   describe("transformContent", () => {

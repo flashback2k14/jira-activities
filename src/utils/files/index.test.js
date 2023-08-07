@@ -1,6 +1,6 @@
 import { expect, jest, describe, it } from "@jest/globals";
 import { getFileContent, getContent } from "./index.js";
-import { xml, js } from "../test-helper/index.js";
+import { xml, js } from "../helper/index.js";
 import fs from "node:fs/promises";
 
 describe("files", () => {

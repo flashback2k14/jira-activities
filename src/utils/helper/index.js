@@ -1,3 +1,8 @@
+import { createRequire } from "node:module";
+export const packageJSON = createRequire(import.meta.url)(
+  "../../../package.json"
+);
+
 export const date0 = "2023-06-18";
 export const date1 = "2023-06-19";
 export const date2 = "2023-06-23";
