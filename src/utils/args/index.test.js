@@ -28,12 +28,30 @@ describe("args", () => {
       jest.spyOn(Date, "now").mockImplementation(() => 1687716223333);
     });
 
-    it("should throw error if --filepath arg is missing", () => {
+    it("should throw error if --filepath or --clipboard arg is missing", () => {
       jest.replaceProperty(process, "argv", ["lorem", "ipsum"]);
 
       expect(() => getArgs()).toThrowError(
-        new Error("--filepath argument is missing.")
+        new Error("--filepath or --clipboard argument is missing.")
       );
+    });
+
+    it("should return filepath with --filepath arg", () => {
+      jest.replaceProperty(process, "argv", ["--filepath=ipsum.xml"]);
+
+      expect(getArgs()).toMatchObject({
+        filepath: "ipsum.xml",
+        clipboard: false,
+      });
+    });
+
+    it("should return clipboard with --clipboard arg", () => {
+      jest.replaceProperty(process, "argv", ["--clipboard"]);
+
+      expect(getArgs()).toMatchObject({
+        filepath: undefined,
+        clipboard: true,
+      });
     });
 
     describe("with --help arg", () => {
@@ -58,6 +76,7 @@ describe("args", () => {
           details: false,
           verbose: false,
           help: false,
+          clipboard: false,
         }));
 
       describe("with --details arg", () => {
@@ -89,6 +108,7 @@ describe("args", () => {
             expect(spyLog).toHaveBeenNthCalledWith(2, "Arguments:");
             expect(spyLog).toHaveBeenNthCalledWith(3, "------------------");
             expect(spyLog).toHaveBeenNthCalledWith(4, {
+              clipboard: false,
               details: true,
               endDate: "2023-06-25",
               filepath: "lorem.xml",
