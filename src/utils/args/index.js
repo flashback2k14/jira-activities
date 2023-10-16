@@ -33,33 +33,6 @@ export function getArgs() {
     return { help };
   }
 
-  // const filepath =
-  //   extractValue(
-  //     process.argv.find((arg) => arg.includes(PARAMETER.FILE_PATH))
-  //   ) ?? false;
-
-  // const clipboard = !!process.argv.find((arg) => arg === PARAMETER.CLIPBOARD);
-
-  // console.log("filepath: " + filepath);
-  // console.log("clipboard: " + clipboard);
-
-  // if (!filepath || !clipboard) {
-  //   console.log("1");
-
-  //   if (!filepath) {
-  //     console.log("1.1");
-  //     throw new Error(`${PARAMETER.FILE_PATH} argument is missing.`);
-  //   }
-
-  //   console.log("2");
-  //   if (!clipboard) {
-  //     console.log("2.1");
-  //     throw new Error(`${PARAMETER.CLIPBOARD} argument is missing.`);
-  //   }
-  // }
-
-  // console.log("3");
-
   const filepathOrClipboard =
     extractValue(
       process.argv.find((arg) => arg.includes(PARAMETER.FILE_PATH))

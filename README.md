@@ -13,7 +13,11 @@ Checkout the code and perform `npm install` to install the dependencies. After t
 
 This program has one required parameter and four optional parameter.
 
-The first parameter is the `--filepath` to the xml file that contains the result from the Jira activity feed. Because of permission issue we can not fetch directly the Jira activity feed.
+The first parameter is one of the following parameter. Because of permission issue we can not fetch directly the Jira activity feed.
+
+- The parameter `--filepath` to the xml file that contains the result from the Jira activity feed.
+
+- The parameter `--clipboard` to the copied xml content from the Jira activity feed.
 
 The second parameter is the `--start`. Mostly the start day of the working week. If it's not set then it's calculated from the `end` or from `Date.now()` if `end` is not present.
 
