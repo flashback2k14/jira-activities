@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import clippy from "clipboardy";
 import {
   addSummarizedTickets,
   getArgs,
@@ -18,9 +19,11 @@ async function main() {
     return;
   }
 
-  const { filepath, startDate, endDate, details } = args;
+  const { filepath, clipboard, startDate, endDate, details } = args;
 
-  const xmlContent = await getFileContent(filepath);
+  const xmlContent = clipboard
+    ? await clippy.read()
+    : await getFileContent(filepath);
   const content = getContent(xmlContent);
   const dates = getDatesBetween(startDate, endDate);
   const { transformed, excluded } = transformContent(content, dates);

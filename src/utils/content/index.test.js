@@ -358,7 +358,7 @@ describe("content", () => {
 
       printHelp();
 
-      expect(spyLog).toBeCalledTimes(11);
+      expect(spyLog).toBeCalledTimes(13);
       expect(spyLog).toHaveBeenLastCalledWith("  The version is 9.9.9.");
     });
   });

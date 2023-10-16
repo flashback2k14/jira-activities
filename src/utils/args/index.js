@@ -1,12 +1,13 @@
 import { getCurrentStartDate, getCurrentEndDate } from "../dates/index.js";
 
 const PARAMETER = {
-  FILE_PATH: "--filepath",
-  START_DATE: "--start",
-  END_DATE: "--end",
+  CLIPBOARD: "--clipboard",
   DETAILS: "--details",
-  VERBOSE: "--verbose",
+  END_DATE: "--end",
+  FILE_PATH: "--filepath",
   HELP: "--help",
+  START_DATE: "--start",
+  VERBOSE: "--verbose",
 };
 
 export function extractValue(arg) {
@@ -32,10 +33,43 @@ export function getArgs() {
     return { help };
   }
 
-  const filepath =
+  // const filepath =
+  //   extractValue(
+  //     process.argv.find((arg) => arg.includes(PARAMETER.FILE_PATH))
+  //   ) ?? false;
+
+  // const clipboard = !!process.argv.find((arg) => arg === PARAMETER.CLIPBOARD);
+
+  // console.log("filepath: " + filepath);
+  // console.log("clipboard: " + clipboard);
+
+  // if (!filepath || !clipboard) {
+  //   console.log("1");
+
+  //   if (!filepath) {
+  //     console.log("1.1");
+  //     throw new Error(`${PARAMETER.FILE_PATH} argument is missing.`);
+  //   }
+
+  //   console.log("2");
+  //   if (!clipboard) {
+  //     console.log("2.1");
+  //     throw new Error(`${PARAMETER.CLIPBOARD} argument is missing.`);
+  //   }
+  // }
+
+  // console.log("3");
+
+  const filepathOrClipboard =
     extractValue(
       process.argv.find((arg) => arg.includes(PARAMETER.FILE_PATH))
-    ) ?? new Error(`${PARAMETER.FILE_PATH} argument is missing.`);
+    ) ?? !!process.argv.find((arg) => arg === PARAMETER.CLIPBOARD);
+
+  if (!filepathOrClipboard) {
+    throw new Error(
+      `${PARAMETER.FILE_PATH} or ${PARAMETER.CLIPBOARD} argument is missing.`
+    );
+  }
 
   const endDate = extractValue(
     process.argv.find((arg) => arg.includes(PARAMETER.END_DATE))
@@ -49,17 +83,16 @@ export function getArgs() {
 
   const verbose = !!process.argv.find((arg) => arg === PARAMETER.VERBOSE);
 
-  if (filepath instanceof Error) {
-    throw filepath;
-  }
-
   const args = {
-    filepath,
-    startDate: startDate ?? getCurrentStartDate(endDate ?? now),
-    endDate: endDate ?? getCurrentEndDate(now),
+    clipboard:
+      typeof filepathOrClipboard === "boolean" ? filepathOrClipboard : false,
     details,
-    verbose,
+    endDate: endDate ?? getCurrentEndDate(now),
+    filepath:
+      typeof filepathOrClipboard === "string" ? filepathOrClipboard : undefined,
     help,
+    startDate: startDate ?? getCurrentStartDate(endDate ?? now),
+    verbose,
   };
 
   if (verbose) {
