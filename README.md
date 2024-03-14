@@ -11,7 +11,7 @@ Checkout the code and perform `npm install` to install the dependencies. After t
 
 ## Parameters
 
-This program has one required parameter and four optional parameter.
+This program has one required parameter and six optional parameter.
 
 The first parameter is one of the following parameter. Because of permission issue we can not fetch directly the Jira activity feed.
 
@@ -28,6 +28,8 @@ The fourth parameter is `--details`. To print out more details for each Jira tic
 The fifth parameter is `--verbose`. To print out the program arguments.
 
 The sixed parameter is `--help`. To print out the help text.
+
+The seventh parameter is `--extend`. To print out the summary and the type of the ticket.
 
 ## Execution
 
