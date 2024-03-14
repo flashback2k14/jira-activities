@@ -18,6 +18,7 @@ export function transformContent(content, dates) {
         title: entry?.["activity:object"]?.title?._text ?? "",
         summary: entry?.["activity:object"]?.summary?._text ?? "",
         link: entry?.link?.[0]?._attributes?.href ?? "",
+        type: entry?.link?.[1]?._attributes?.title ?? "",
       };
 
       if (transformed.has(date)) {
@@ -34,32 +35,58 @@ export function transformContent(content, dates) {
   return { transformed, excluded };
 }
 
-export function addSummarizedTickets(content) {
+export function addSummarizedTickets(content, extend) {
   const result = new Map();
 
-  for (const [key, value] of content) {
-    const titles = value
-      .map((v) => v.title)
-      .filter(Boolean)
-      .filter((v) => !v.includes("image"))
-      .sort();
+  if (extend) {
+    for (const [key, value] of content) {
+      const titles = value
+        .map((v) => ({ title: v.title, summary: v.summary, type: v.type }))
+        .filter(Boolean)
+        .filter((v) => !v.title?.includes("image"))
+        .map(
+          (v) =>
+            `- ${v?.title ?? "no-title"} - ${
+              v?.summary ?? "no-summary"
+            } \n\t--> ${v?.type ?? "no-type"}`
+        )
+        .sort();
 
-    result.set(key, {
-      ...content.get(key),
-      tickets: [...new Set(titles)].join(", "),
-    });
+      result.set(key, {
+        ...content.get(key),
+        tickets: [...new Set(titles)].join("\n "),
+      });
+    }
+  } else {
+    for (const [key, value] of content) {
+      const titles = value
+        .map((v) => v.title)
+        .filter(Boolean)
+        .filter((v) => !v.includes("image"))
+        .sort();
+
+      result.set(key, {
+        ...content.get(key),
+        tickets: [...new Set(titles)].join(", "),
+      });
+    }
   }
 
   return result;
 }
 
-export function print(content, ignored, details = false) {
+export function print(content, ignored, extend = false, details = false) {
   console.log("------------------");
   console.log("Tickets per day:");
   console.log("------------------");
 
   content.forEach((value, key) => {
-    console.log(key + ": " + value.tickets);
+    if (extend) {
+      console.log(key + ": ");
+      console.log(" " + value.tickets);
+    } else {
+      console.log(key + ": " + value.tickets);
+    }
 
     if (details) {
       const { tickets, ...rest } = value;
@@ -79,7 +106,7 @@ export function printHelp() {
   [
     "Welcome to Jira activities.",
     "",
-    "  This program has one required parameter and five optional parameter.",
+    "  This program has one required parameter and six optional parameter.",
     "  -  The first parameter is one of the following parameter. Because of permission issue we can not fetch directly the Jira activity feed.",
     "     - The parameter '--filepath' to the xml file that contains the result from the Jira activity feed.",
     "     - The parameter '--clipboard' to the copied xml content from the Jira activity feed.",
@@ -88,6 +115,7 @@ export function printHelp() {
     "  -  The fourth parameter is '--details'. To print out more details for each Jira ticket you worked on.",
     "  -  The fifth parameter is '--verbose'. To print out the program arguments.",
     "  -  The sixed parameter is '--help'. To print out this help text.",
+    "  -  The seventh parameter is '--extend'. To print out the summary and the type of the ticket.",
     "",
     "  The version is " + packageJSON.version + ".",
   ].forEach((line) => console.log(line));

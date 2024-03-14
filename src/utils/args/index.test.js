@@ -15,7 +15,7 @@ describe("args", () => {
 
     it("should return an Error if there is no equal sign", () =>
       expect(() => extractValue("ipsum")).toThrowError(
-        new Error("arg doesn't has an equal sign.")
+        new Error("arg doesn't has an equal sign."),
       ));
 
     it("should return undefined if there is no argument passed", () =>
@@ -32,7 +32,7 @@ describe("args", () => {
       jest.replaceProperty(process, "argv", ["lorem", "ipsum"]);
 
       expect(() => getArgs()).toThrowError(
-        new Error("--filepath or --clipboard argument is missing.")
+        new Error("--filepath or --clipboard argument is missing."),
       );
     });
 
@@ -77,6 +77,7 @@ describe("args", () => {
           verbose: false,
           help: false,
           clipboard: false,
+          extend: false,
         }));
 
       describe("with --details arg", () => {
@@ -115,6 +116,7 @@ describe("args", () => {
               help: false,
               startDate: "2023-06-21",
               verbose: true,
+              extend: false,
             });
           });
 
@@ -142,6 +144,21 @@ describe("args", () => {
                   startDate: "2023-07-31",
                   endDate: "2023-08-04",
                 }));
+
+              describe("with --extend arg", () => {
+                beforeEach(() => process.argv.push("--extend"));
+
+                it("should return args", () =>
+                  expect(getArgs()).toMatchObject({
+                    filepath: "lorem.xml",
+                    details: true,
+                    verbose: true,
+                    help: false,
+                    startDate: "2023-07-31",
+                    endDate: "2023-08-04",
+                    extend: true,
+                  }));
+              });
             });
           });
         });

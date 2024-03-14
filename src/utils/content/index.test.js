@@ -43,6 +43,7 @@ describe("content", () => {
                 link: "https://lorem.ipsum/jira/browse/LI-1234567890",
                 summary: "Example summary text",
                 title: "LI-1234567890",
+                type: "Story",
               },
             ],
           ],
@@ -62,6 +63,7 @@ describe("content", () => {
                 link: "https://lorem.ipsum/jira/browse/LI-1234567890",
                 summary: "Example summary text #2",
                 title: "LI-1234567890",
+                type: "Story",
               },
             ],
           ],
@@ -81,6 +83,7 @@ describe("content", () => {
                 link: "https://lorem.ipsum/jira/browse/LI-1234567890",
                 summary: "Example summary text #2",
                 title: "LI-1234567890",
+                type: "Story",
               },
             ],
           ],
@@ -93,6 +96,7 @@ describe("content", () => {
                 link: "https://lorem.ipsum/jira/browse/LI-9876543210",
                 summary: "Example summary text #1",
                 title: "LI-9876543210",
+                type: "Story",
               },
             ],
           ],
@@ -112,6 +116,7 @@ describe("content", () => {
                 link: "https://lorem.ipsum/jira/browse/LI-1234567890",
                 summary: "Example summary text #2",
                 title: "LI-1234567890",
+                type: "Story",
               },
               {
                 category: "in progress",
@@ -119,6 +124,7 @@ describe("content", () => {
                 link: "https://lorem.ipsum/jira/browse/LI-1234567890",
                 summary: "Example summary text #2.1",
                 title: "LI-1234567890",
+                type: "Story",
               },
             ],
           ],
@@ -131,6 +137,7 @@ describe("content", () => {
                 link: "https://lorem.ipsum/jira/browse/LI-9876543210",
                 summary: "Example summary text #1",
                 title: "LI-9876543210",
+                type: "Story",
               },
             ],
           ],
@@ -152,6 +159,7 @@ describe("content", () => {
                 link: "https://lorem.ipsum/jira/browse/LI-1234567890",
                 summary: "Example summary text #2.1",
                 title: "",
+                type: "Story",
               },
             ],
           ],
@@ -164,6 +172,7 @@ describe("content", () => {
                 link: "",
                 summary: "",
                 title: "LI-9876543210",
+                type: "",
               },
             ],
           ],
@@ -228,6 +237,122 @@ describe("content", () => {
                 title: "LI-9876543210",
               },
               tickets: "LI-9876543210",
+            },
+          })
+        )
+      ));
+
+    it("add extended summarized tickets correctly", () =>
+      expect(
+        addSummarizedTickets(
+          new Map([
+            [
+              date2,
+              [
+                {
+                  category: "closed",
+                  date: "2023-06-23",
+                  link: "https://lorem.ipsum/jira/browse/LI-1234567890",
+                  summary: "Example summary text #2",
+                  title: "LI-1234567890",
+                },
+              ],
+            ],
+            [
+              date1,
+              [
+                {
+                  category: "closed",
+                  date: "2023-06-19",
+                  link: "https://lorem.ipsum/jira/browse/LI-9876543210",
+                  summary: "Example summary text #1",
+                  title: "LI-9876543210",
+                },
+              ],
+            ],
+          ]),
+          true
+        )
+      ).toEqual(
+        new Map(
+          Object.entries({
+            "2023-06-23": {
+              0: {
+                category: "closed",
+                date: "2023-06-23",
+                link: "https://lorem.ipsum/jira/browse/LI-1234567890",
+                summary: "Example summary text #2",
+                title: "LI-1234567890",
+              },
+              tickets: `- LI-1234567890 - Example summary text #2 \n\t--> no-type`,
+            },
+            "2023-06-19": {
+              0: {
+                category: "closed",
+                date: "2023-06-19",
+                link: "https://lorem.ipsum/jira/browse/LI-9876543210",
+                summary: "Example summary text #1",
+                title: "LI-9876543210",
+              },
+              tickets: `- LI-9876543210 - Example summary text #1 \n\t--> no-type`,
+            },
+          })
+        )
+      ));
+
+    it("add extended summarized without data tickets correctly", () =>
+      expect(
+        addSummarizedTickets(
+          new Map([
+            [
+              date2,
+              [
+                {
+                  category: "closed",
+                  date: "2023-06-23",
+                  link: "https://lorem.ipsum/jira/browse/LI-1234567890",
+                  summary: undefined,
+                  title: undefined,
+                },
+              ],
+            ],
+            [
+              date1,
+              [
+                {
+                  category: "closed",
+                  date: "2023-06-19",
+                  link: "https://lorem.ipsum/jira/browse/LI-9876543210",
+                  summary: "Example summary text #1",
+                  title: "LI-9876543210",
+                },
+              ],
+            ],
+          ]),
+          true
+        )
+      ).toEqual(
+        new Map(
+          Object.entries({
+            "2023-06-23": {
+              0: {
+                category: "closed",
+                date: "2023-06-23",
+                link: "https://lorem.ipsum/jira/browse/LI-1234567890",
+                summary: undefined,
+                title: undefined,
+              },
+              tickets: `- no-title - no-summary \n\t--> no-type`,
+            },
+            "2023-06-19": {
+              0: {
+                category: "closed",
+                date: "2023-06-19",
+                link: "https://lorem.ipsum/jira/browse/LI-9876543210",
+                summary: "Example summary text #1",
+                title: "LI-9876543210",
+              },
+              tickets: `- LI-9876543210 - Example summary text #1 \n\t--> no-type`,
             },
           })
         )
@@ -306,6 +431,28 @@ describe("content", () => {
       expect(spyLog).toHaveBeenNthCalledWith(8, "------------------");
     });
 
+    it("display extended ticket entries", () => {
+      print(
+        new Map([
+          ["2023-07-01", { tickets: "- L-1234567890" }],
+          ["2023-07-02", { tickets: "- L-0987654321" }],
+        ]),
+        0,
+        true
+      );
+      expect(spyLog).toBeCalledTimes(10);
+      expect(spyLog).toHaveBeenNthCalledWith(1, "------------------");
+      expect(spyLog).toHaveBeenNthCalledWith(2, "Tickets per day:");
+      expect(spyLog).toHaveBeenNthCalledWith(3, "------------------");
+      expect(spyLog).toHaveBeenNthCalledWith(4, "2023-07-01: ");
+      expect(spyLog).toHaveBeenNthCalledWith(5, " - L-1234567890");
+      expect(spyLog).toHaveBeenNthCalledWith(6, "2023-07-02: ");
+      expect(spyLog).toHaveBeenNthCalledWith(7, " - L-0987654321");
+      expect(spyLog).toHaveBeenNthCalledWith(8, "------------------");
+      expect(spyLog).toHaveBeenNthCalledWith(9, "excluded entries: 0.");
+      expect(spyLog).toHaveBeenNthCalledWith(10, "------------------");
+    });
+
     it("display ticket entries with details", () => {
       print(
         new Map([
@@ -319,6 +466,7 @@ describe("content", () => {
           ],
         ]),
         0,
+        false,
         true
       );
       expect(spyLog).toBeCalledTimes(16);
@@ -358,7 +506,7 @@ describe("content", () => {
 
       printHelp();
 
-      expect(spyLog).toBeCalledTimes(13);
+      expect(spyLog).toBeCalledTimes(14);
       expect(spyLog).toHaveBeenLastCalledWith("  The version is 9.9.9.");
     });
   });

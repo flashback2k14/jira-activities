@@ -19,7 +19,7 @@ async function main() {
     return;
   }
 
-  const { filepath, clipboard, startDate, endDate, details } = args;
+  const { filepath, clipboard, startDate, endDate, details, extend } = args;
 
   const xmlContent = clipboard
     ? await clippy.read()
@@ -27,9 +27,9 @@ async function main() {
   const content = getContent(xmlContent);
   const dates = getDatesBetween(startDate, endDate);
   const { transformed, excluded } = transformContent(content, dates);
-  const result = addSummarizedTickets(transformed);
+  const result = addSummarizedTickets(transformed, extend);
 
-  print(result, excluded, details);
+  print(result, excluded, extend, details);
 }
 
 main().catch((error) => console.error(error));

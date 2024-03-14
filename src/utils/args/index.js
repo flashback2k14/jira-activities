@@ -4,6 +4,7 @@ const PARAMETER = {
   CLIPBOARD: "--clipboard",
   DETAILS: "--details",
   END_DATE: "--end",
+  EXTEND: "--extend",
   FILE_PATH: "--filepath",
   HELP: "--help",
   START_DATE: "--start",
@@ -35,22 +36,24 @@ export function getArgs() {
 
   const filepathOrClipboard =
     extractValue(
-      process.argv.find((arg) => arg.includes(PARAMETER.FILE_PATH))
+      process.argv.find((arg) => arg.includes(PARAMETER.FILE_PATH)),
     ) ?? !!process.argv.find((arg) => arg === PARAMETER.CLIPBOARD);
 
   if (!filepathOrClipboard) {
     throw new Error(
-      `${PARAMETER.FILE_PATH} or ${PARAMETER.CLIPBOARD} argument is missing.`
+      `${PARAMETER.FILE_PATH} or ${PARAMETER.CLIPBOARD} argument is missing.`,
     );
   }
 
   const endDate = extractValue(
-    process.argv.find((arg) => arg.includes(PARAMETER.END_DATE))
+    process.argv.find((arg) => arg.includes(PARAMETER.END_DATE)),
   );
 
   const startDate = extractValue(
-    process.argv.find((arg) => arg.includes(PARAMETER.START_DATE))
+    process.argv.find((arg) => arg.includes(PARAMETER.START_DATE)),
   );
+
+  const extend = !!process.argv.find((arg) => arg === PARAMETER.EXTEND);
 
   const details = !!process.argv.find((arg) => arg === PARAMETER.DETAILS);
 
@@ -61,6 +64,7 @@ export function getArgs() {
       typeof filepathOrClipboard === "boolean" ? filepathOrClipboard : false,
     details,
     endDate: endDate ?? getCurrentEndDate(now),
+    extend,
     filepath:
       typeof filepathOrClipboard === "string" ? filepathOrClipboard : undefined,
     help,
