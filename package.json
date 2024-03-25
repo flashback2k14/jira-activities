@@ -1,6 +1,6 @@
 {
   "name": "jira-activities",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "Get Jira tickets from the activity feed",
   "main": "src/index.js",
   "bin": {
@@ -13,7 +13,7 @@
     "test:verbose": "npm test -- --verbose",
     "start": "node src/index.js --start=2023-06-19 --end=2023-06-23 --filepath=drop-xml-here/test.xml",
     "start:clipboard": "node src/index.js --start=2024-02-01 --end=2024-02-29 --clipboard",
-    "start:clipboard:extend": "node src/index.js --start=2024-02-01 --end=2024-02-29 --clipboard --extend",
+    "start:clipboard:extend": "node src/index.js --start=2024-03-18 --end=2024-03-22 --clipboard --extend",
     "start:help": "node src/index.js --help",
     "start:details": "npm start -- --details"
   },

@@ -147,7 +147,7 @@ describe("content", () => {
 
     it("should tranform correctly the empty fields", () =>
       expect(
-        transformContent(jsWithThreeEntriesAndEmptyFields, [date1, date2])
+        transformContent(jsWithThreeEntriesAndEmptyFields, [date1, date2]),
       ).toEqual({
         transformed: new Map([
           [
@@ -213,8 +213,8 @@ describe("content", () => {
                 },
               ],
             ],
-          ])
-        )
+          ]),
+        ),
       ).toEqual(
         new Map(
           Object.entries({
@@ -238,8 +238,8 @@ describe("content", () => {
               },
               tickets: "LI-9876543210",
             },
-          })
-        )
+          }),
+        ),
       ));
 
     it("add extended summarized tickets correctly", () =>
@@ -271,8 +271,8 @@ describe("content", () => {
               ],
             ],
           ]),
-          true
-        )
+          true,
+        ),
       ).toEqual(
         new Map(
           Object.entries({
@@ -296,8 +296,8 @@ describe("content", () => {
               },
               tickets: `- LI-9876543210 - Example summary text #1 \n\t--> no-type`,
             },
-          })
-        )
+          }),
+        ),
       ));
 
     it("add extended summarized without data tickets correctly", () =>
@@ -329,8 +329,8 @@ describe("content", () => {
               ],
             ],
           ]),
-          true
-        )
+          true,
+        ),
       ).toEqual(
         new Map(
           Object.entries({
@@ -342,7 +342,7 @@ describe("content", () => {
                 summary: undefined,
                 title: undefined,
               },
-              tickets: `- no-title - no-summary \n\t--> no-type`,
+              tickets: "",
             },
             "2023-06-19": {
               0: {
@@ -354,21 +354,21 @@ describe("content", () => {
               },
               tickets: `- LI-9876543210 - Example summary text #1 \n\t--> no-type`,
             },
-          })
-        )
+          }),
+        ),
       ));
 
     it("filter out images from title for summarized tickets", () =>
       expect(
         addSummarizedTickets(
-          new Map([["2023-07-01", [{ title: "image.lorem" }]]])
-        )
+          new Map([["2023-07-01", [{ title: "image.lorem" }]]]),
+        ),
       ).toEqual(
         new Map(
           Object.entries({
             "2023-07-01": { 0: { title: "image.lorem" }, tickets: "" },
-          })
-        )
+          }),
+        ),
       ));
 
     it("filter empty from title for summarized tickets", () =>
@@ -379,8 +379,8 @@ describe("content", () => {
             ["2023-07-02", [{ title: undefined }]],
             ["2023-07-03", [{ title: "" }]],
             ["2023-07-04", [{ title: false }]],
-          ])
-        )
+          ]),
+        ),
       ).toEqual(
         new Map(
           Object.entries({
@@ -388,8 +388,8 @@ describe("content", () => {
             "2023-07-02": { 0: { title: undefined }, tickets: "" },
             "2023-07-03": { 0: { title: "" }, tickets: "" },
             "2023-07-04": { 0: { title: false }, tickets: "" },
-          })
-        )
+          }),
+        ),
       ));
   });
 
@@ -418,7 +418,7 @@ describe("content", () => {
           ["2023-07-01", { tickets: "L-1234567890" }],
           ["2023-07-02", { tickets: "L-0987654321" }],
         ]),
-        0
+        0,
       );
       expect(spyLog).toBeCalledTimes(8);
       expect(spyLog).toHaveBeenNthCalledWith(1, "------------------");
@@ -438,7 +438,7 @@ describe("content", () => {
           ["2023-07-02", { tickets: "- L-0987654321" }],
         ]),
         0,
-        true
+        true,
       );
       expect(spyLog).toBeCalledTimes(10);
       expect(spyLog).toHaveBeenNthCalledWith(1, "------------------");
@@ -467,7 +467,7 @@ describe("content", () => {
         ]),
         0,
         false,
-        true
+        true,
       );
       expect(spyLog).toBeCalledTimes(16);
       expect(spyLog).toHaveBeenNthCalledWith(1, "------------------");

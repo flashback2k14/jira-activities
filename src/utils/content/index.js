@@ -44,11 +44,10 @@ export function addSummarizedTickets(content, extend) {
         .map((v) => ({ title: v.title, summary: v.summary, type: v.type }))
         .filter(Boolean)
         .filter((v) => !v.title?.includes("image"))
+        .filter((v) => v.title)
         .map(
           (v) =>
-            `- ${v?.title ?? "no-title"} - ${
-              v?.summary ?? "no-summary"
-            } \n\t--> ${v?.type ?? "no-type"}`
+            `- ${v?.title} - ${v?.summary} \n\t--> ${v?.type ?? "no-type"}`,
         )
         .sort();
 
